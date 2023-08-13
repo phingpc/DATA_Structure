@@ -1,0 +1,410 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assignment5;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author PHinG Jakkaphat
+ */
+class Product {
+
+    public int id;
+    public String name;
+    public int price;
+    public String producer;
+    public String expiryDate;
+    public String discount;
+
+    public Product() {
+        Random random = new Random();
+        //----------------------------
+        //random ID 
+        //----------------------------
+        int NumberPassport = 10000 - 1000;
+        int Number_random = random.nextInt(NumberPassport) + 1000;
+        this.id = Number_random;
+        //----------------------------
+        //random name
+        //----------------------------
+        int big_char_name = 90 - 65 + 1;
+        int first_name_char1 = random.nextInt(big_char_name) + 65;
+        int second_name_char2 = random.nextInt(big_char_name) + 65;
+        int total_char_name = 10 - 2 + 1;// length firts name or last name (2 to 10)
+        int max_fname = random.nextInt(total_char_name) + 2;// length first name
+        int max_lname = random.nextInt(total_char_name) + 2;// length last name
+        String firstname = "" + Character.toString((char) first_name_char1);// import charactor
+        for (int i = 0; i < max_fname - 1; i++) {
+            int name_random = random.nextInt(122 - 97 + 1) + 97;
+            firstname += "" + Character.toString((char) name_random);// import
+        }
+        String lastname = "" + Character.toString((char) second_name_char2);
+        for (int i = 0; i < max_lname - 1; i++) { //why -1 becuase String import first big character
+            int name_random = random.nextInt(122 - 97 + 1) + 97;
+            lastname += "" + Character.toString((char) name_random);
+        }
+        this.name = firstname + " " + lastname;
+        //----------------------------
+        //random price
+        //----------------------------
+        int Numberprice = 10000 - 100;
+        int price_random = random.nextInt(Numberprice) + 100;
+        this.price = price_random;
+        //----------------------------
+        //random producer
+        //----------------------------
+        int total_name_producer = 10 - 2;
+        int max_name_producer = random.nextInt(total_name_producer) + 2;
+        String producer_name = "";
+        for (int i = 0; i < max_name_producer - 1; i++) {
+            int name_random = random.nextInt(122 - 97 + 1) + 97;
+            producer_name += "" + Character.toString((char) name_random);// import
+        }
+        this.producer = producer_name;
+        //----------------------------
+        //random expiryDate
+        //----------------------------
+        int max_date = 30 - 1;
+        int random_date = random.nextInt(max_date) + 1;
+        int max_month = 12 - 1;
+        int random_month = random.nextInt(max_month) + 1;
+        int max_years = 2030 - 2023;
+        int random_years = random.nextInt(max_years) + 2023;
+        this.expiryDate = random_date + "/" + random_month + "/" + random_years;
+        //----------------------------
+        //random discount
+        //----------------------------
+        int max_discount = 10 - 1;
+        int random_discount = random.nextInt(max_discount) + 1;
+        this.discount = random_discount + "0%";
+    }
+}
+
+class MyTransaction {
+
+    Product[] data;
+
+    public MyTransaction(Product[] a) {
+        data = a;
+    }
+}
+
+class ProductComparator implements Comparator<Product> {
+
+    @Override
+    public int compare(Product p1, Product p2) {
+        return Integer.compare(p1.id, p2.id);
+    }
+
+}
+
+public class NewJFrame extends javax.swing.JFrame {
+
+    Object[][] data;
+    Product[] p;
+    Product pr;
+    MyTransaction transaction;
+
+    public static Product[] delete(Product[] array, int index) {
+        if (array.length > 0 && index >= 0 && index < array.length) {
+            Product[] temp = new Product[array.length - 1];
+            int i = 0;
+            for (int j = 0; j < array.length; j++) {
+                if (j != index) {
+                    temp[i++] = array[j];
+                }
+            }
+            return temp;
+        }
+        return array;
+    }
+
+    public static Product[] insert(Product[] array, Product x, int index) {
+        Product[] temp = Arrays.copyOf(array, array.length + 1);
+        for (int i = temp.length - 1; i > index; i--) {
+            temp[i] = temp[i - 1];
+        }
+        temp[index] = x;
+        return temp;
+    }
+
+    /**
+     * Creates new form NewJFrame
+     */
+    public NewJFrame() {
+        initComponents();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("My Dynamic Array : 650710673 : จักรพัชร คัชชาพงษ์");
+
+        jButton1.setText("Gen 1 Product");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Price", "Producer", "ExpirtDate", "Discount"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jButton2.setText("Gen 10 Product");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Create a Transaction");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("insert");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("delete");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                    .addComponent(jTextField1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        pr = new Product();
+        String productGen_1 = "ID : " + pr.id + " Name : " + pr.name + " Price : " + pr.price + " Producer : " + pr.producer + " ExpiryDate : " + pr.expiryDate + " Discount : " + pr.discount;
+        jTextField1.setText(productGen_1);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            p = new Product[10];
+            for (int i = 0; i < 10; i++) {
+                p[i] = new Product();
+            }
+            transaction = new MyTransaction(p);// save in MyTransaction to Product[] data
+            JOptionPane.showMessageDialog(this,
+                    "Generate complet",
+                    "No DATA",
+                    JOptionPane.WARNING_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Generate error",
+                    "No DATA",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String[] header = {"ID", "Name", "Price", "Producer", "ExpiryDate", "Discount"};
+        try {
+             Arrays.sort(transaction.data, new ProductComparator()); // sort by ID
+            // import to Object[][]
+            data = new Object[10][6];
+            for (int i = 0; i < 10; i++) {
+                data[i][0] = transaction.data[i].id;
+                data[i][1] = transaction.data[i].name;
+                data[i][2] = transaction.data[i].price;
+                data[i][3] = transaction.data[i].producer;
+                data[i][4] = transaction.data[i].expiryDate;
+                data[i][5] = transaction.data[i].discount;
+            }
+            DefaultTableModel model = new DefaultTableModel(data, header);
+            jTable1.setModel(model);
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "You don't have DATA",
+                    "No DATA",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String[] header = {"ID", "Name", "Price", "Producer", "ExpiryDate", "Discount"};
+            transaction = new MyTransaction(insert(p, pr, 10)); // use insert to import Product(not array) to Product(array)
+            Arrays.sort(transaction.data, new ProductComparator());// sort by ID
+            data = new Object[11][6];
+            for (int i = 0; i < 11; i++) {
+                data[i][0] = transaction.data[i].id;
+                data[i][1] = transaction.data[i].name;
+                data[i][2] = transaction.data[i].price;
+                data[i][3] = transaction.data[i].producer;
+                data[i][4] = transaction.data[i].expiryDate;
+                data[i][5] = transaction.data[i].discount;
+            }
+            DefaultTableModel model = new DefaultTableModel(data, header);
+            jTable1.setModel(model);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        // I want index p
+        try {
+            String[] header = {"ID", "Name", "Price", "Producer", "ExpiryDate", "Discount"};
+            int target = 0;
+            for (int i = 0; i < 11; i++) {
+                if (transaction.data[i].id == pr.id) { // searching for target delete by pr.id
+                    target = i;
+                    break;
+                }
+            }
+            transaction = new MyTransaction(delete(transaction.data, target));
+            data = new Object[10][6];
+            for (int i = 0; i < 10; i++) {
+                data[i][0] = transaction.data[i].id;
+                data[i][1] = transaction.data[i].name;
+                data[i][2] = transaction.data[i].price;
+                data[i][3] = transaction.data[i].producer;
+                data[i][4] = transaction.data[i].expiryDate;
+                data[i][5] = transaction.data[i].discount;
+            }
+            DefaultTableModel model = new DefaultTableModel(data, header);
+            jTable1.setModel(model);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "There is no data to delete.",
+                    "No DATA",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new NewJFrame().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    // End of variables declaration//GEN-END:variables
+}
